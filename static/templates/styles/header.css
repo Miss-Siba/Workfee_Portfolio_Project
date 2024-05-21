@@ -1,0 +1,14 @@
+header {
+    width: 100%;
+    background-color: Blossom Mauve;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 142px;
+    height: 60px;
+    background: url("../images/Workfee_name.png") no-repeat center;
+    padding-left: 20px;
+}

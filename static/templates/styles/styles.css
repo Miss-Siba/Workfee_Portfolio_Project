@@ -1,0 +1,77 @@
+/* Global styles */
+body {
+    font-family: Glacial Indifference;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #9fa5c8;
+    color: #060644;
+    padding: 10px 0;
+}
+
+/* Logo styles */
+.logo-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+/* Main content styles */
+main {
+    margin-top: 100px;
+}
+
+.quote-section blockquote {
+    font-size: 32;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Font size and background color for search input and button */
+.quote-section form input[type="text"] {
+    font-size: 20px;
+    background-color: #ffffff; /* White background color */
+    padding: 5px 10px;
+    border: 2px solid #060644; /* Blue border color */
+    border-radius: 3px;
+}
+.quote-section form button {
+    font-size: 20px;
+    font color:#9fa5c8;
+    background-color: #060644;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+/* Tabs styles */
+.tabs {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.tabs ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tabs li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.tabs li a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    margin-top: 50px;
+}
