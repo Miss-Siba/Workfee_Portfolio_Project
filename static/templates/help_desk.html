@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancers</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="logo-container">
+            <img src="../images/Workfee_name.png" alt="Logo">
+        </div>
+   <!-- Add the image at the bottom of the body -->
+   <img src="../images/picture_landing_page.png" alt="Web_Image" class="bottom-right-image">
+
+        <nav class="tabs">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="freelancers.html">Freelancers</a></li>
+                <li><a href="job_listing.html">Job Listing</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="help_desk.html">Help Desk</a></li>
+            </ul>
+        </nav>
+    </header>
+</head>
+<body>
+    <!-- Header, navigation, and other sections -->
+    <main>
+        <section id="help-desk">
+            <h2>Help Desk</h2>
+            <form action="{{ url_for('submit_help_request') }}" method="POST" enctype="multipart/form-data">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="problem">Problem Description:</label>
+                <textarea id="problem" name="problem" rows="4" required></textarea>
+                <label for="screenshots">Upload Screenshots:</label>
+                <input type="file" id="screenshots" name="screenshots" accept=".png, .jpg, .jpeg" multiple>
+                <button type="submit">Submit Request</button>
+            </form>
+        </section>
+    </main>
+    <Footer>"Our team of experts will do their best to solve your problem."</Footer>
+</body>
+</html>
+
