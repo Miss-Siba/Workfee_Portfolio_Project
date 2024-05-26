@@ -1,10 +1,43 @@
 /* Global styles */
 body {
     font-family: Glacial Indifference;
+    background-color: #9fa5c8;
+    color: #060644;
     margin: 0;
     padding: 0;
+
+/* Container for the help desk form */
+.help-desk-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the form horizontally */
 }
 
+/* Style for each form group */
+.help-desk-form label, .help-desk-form input, .help-desk-form textarea, .help-desk-form button {
+    margin-bottom: 10px; /* Space between form elements */
+}
+
+/* Optional: Additional styling for inputs and textarea */
+.help-desk-form input, .help-desk-form textarea {
+    padding: 10px;
+    font-size: 16px;
+}
+/* Style for the submit button */
+.help-desk-form button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.help-desk-form button:hover {
+    background-color: #0056b3;
+}
 header {
     background-color: #9fa5c8;
     color: #060644;
@@ -15,8 +48,87 @@ header {
 .logo-container {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
 }
+/* Style for the logo image */
+.logo {
+    width: 150px;
+    height: auto; 
+}
+
+/* Dashboard container styles */
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.dashboard-container section {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    flex: 1 1 calc(50% - 40px); /* Adjust to fit two sections per row */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container section h3 {
+    margin-top: 0;
+}
+
+.dashboard-container section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-container section form label,
+.dashboard-container section form input,
+.dashboard-container section form button {
+    margin-bottom: 10px;
+}
+
+.dashboard-container section form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dashboard-container section form button:hover {
+    background-color: #0056b3;
+}
+/* Login form styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.login-form label,
+.login-form input,
+.login-form button {
+    margin-bottom: 10px;
+}
+
+.login-form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
 /* Main content styles */
 main {
     margin-top: 100px;
