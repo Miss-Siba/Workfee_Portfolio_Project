@@ -10,7 +10,13 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'your_email@example.com'  # Replace with your email credentials
 app.config['MAIL_PASSWORD'] = 'your_email_password'  # Replace with your email password
 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'your_mysql_user'
+app.config['MYSQL_PASSWORD'] = 'your_mysql_password'
+app.config['MYSQL_DB'] = 'flask_app_db'
+
 mail = Mail(app)
+mysql = MySQL(app)
 
 # Sample data for job listings
 jobs = [
@@ -34,18 +40,33 @@ users = {
 def home():
     return render_template('index.html')
 
-@app.route('/job-listing')
-def job_listing():
-    return render_template('job_listing.html', jobs=jobs)
+@app.route('/freelancers', methods=['GET', 'POST'])
+def freelancers_page():
+    if resquest.method == 'POST':
+        industry = request.form.get('industry')
+        query = "SELECT * FROM freelancers WHERE industry = %s"
+        cursor.execute(query, (industry,))
+        freelancers = cursor.fetchall()
+    else:
+        query = "SELECT * FROM freelancers"
+        cursor.execute(query)
+        freelancers = cursor.fetchall()
+    return render_template('freelancers.html', freelancers=freelancers)
 
-@app.route('/add-job', methods=['GET', 'POST'])
-def add_job():
+@app.route('/job_listing', methods=['GET', 'POST'])
+def job_listing():
     if request.method == 'POST':
         title = request.form.get('title')
         description = request.form.get('description')
-        jobs.append({"title": title, "description": description})
+        query = "INSERT INTO jobs (title, description) VALUES (%s, %s)"
+        cursor.execute(query, (title, description))
+        db.commit()
         return redirect(url_for('job_listing'))
-    return render_template('add_job.html')
+    else:
+        query = "SELECT * FROM jobs"
+        cursor.execute(query)
+        jobs = cursor.fetchall()
+        return render_template('job_listing.html', jobs=job)
 
 @app.route('/help-desk', methods=['GET', 'POST'])
 def help_desk():
@@ -62,7 +83,7 @@ def help_desk():
     return render_template('help_desk.html')
 
 def send_help_request(name, email, problem, screenshots):
-    msg = Message('Help Request', sender='your_email@example.com', recipients=['your_support_email@example.com'])
+    msg = Message('Help Request', sender='your_email@example.com', recipients=['sibaquma@gmail.com'])
     msg.body = f"Name: {name}\nEmail: {email}\nProblem Description: {problem}"
     for screenshot in screenshots:
         msg.attach(screenshot.filename, 'image/png', screenshot.read())
@@ -74,39 +95,41 @@ def help_request_success():
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        user = users.get(username)
-        if user and check_password_hash(user['password'], password):
-            session['username'] = username
-            return redirect(url_for('account'))
-        else:
-            return "Invalid credentials", 401
-
     if 'username' in session:
-        user = users[session['username']]
+        username = session['username']
+        query = "SELECT *FROM users WHERE username =%s"
+        cursor.execute(query, (username,))
+        user = cursor.fetchone()
         return render_template('account.html', user=user)
     else:
-        return render_template('account.html')
+        if request.method == 'POST':
+            username = request.form.get('username')
+            password = request.form.get('password')
+            query = "SELECT * FROM users WHERE username = %s"
+            cursor.execute(query, (username,))
+            user = cursor.fetchone()
+            
+            if user and check_password_hash(user['password'], password):
+                session['username'] = username
+                return redirect(url_for('account'))
+            return render_template('account.html')
 
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form.get('reg_username')
     password = request.form.get('reg_password')
 
-    if username in users:
+    query = "SELECT * FROM users WHERE username = %s"
+    cursor.execute(query, (username,))
+    user = cursor.fetchone()
+
+    if user:
         return "Username already exists", 409
 
     hashed_password = generate_password_hash(password)
-    users[username] = {
-        "username": username,
-        "password": hashed_password,
-        "messages": ["Welcome to your new account!"],
-        "portfolio": None,
-        "avatar": None
-    }
+    query = "INSERT INTO users (username, password) VALUES (%s, %s)"
+    cursor.execute(query, (username, hashed_password))
+    db.commit()
     session['username'] = username
     return redirect(url_for('account'))
 
@@ -118,8 +141,15 @@ def upload_portfolio():
     user = users[session['username']]
     file = request.files['portfolio']
     if file:
-        user['portfolio'] = file.filename  # In a real app, save the file and store the path
-        return redirect(url_for('account'))
+        filename = file.filename
+        portfolio_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(portfolio_path)
+
+        query = "UPDATE users SET portfolio = %s WHERE username = %s"
+        cursor.execute(query, (portfolio_path, user))
+        db.commit()
+
+        return redirect(url_for('acount'))
 
 @app.route('/update-password', methods=['POST'])
 def update_password():
