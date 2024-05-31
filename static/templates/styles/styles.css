@@ -57,6 +57,16 @@ header {
     height: auto; 
 }
 
+/* Styles for the bottom-right image */
+.bottom-right-image {
+    position: fixed; /* or 'absolute' if you prefer */
+    bottom: 0;
+    right: 0;
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 10; /* Ensure it appears above other elements if needed */
+}
+
 /* Dashboard container styles */
 .dashboard-container {
     display: flex;
@@ -153,8 +163,8 @@ main {
 }
 .quote-section form button {
     font-size: 20px;
-    font color:#9fa5c8;
-    background-color: #060644;
+    font color: #060644;
+    background-color: #9fa5c8;
     padding: 5px 10px;
     border: none;
     border-radius: 3px;
@@ -180,11 +190,47 @@ main {
 
 .tabs li a {
     text-decoration: none;
-    color: #333;
+    color: #060644;
+}
+/* Styles for centering the search bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+.search-container form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Style the input and button for better appearance */
+.search-container input[type="text"] {
+    padding: 10px;
+    margin-right: 10px; /* Space between input and button */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
 }
 
 /* Footer styles */
 footer {
+    font-family: Glacial Indifference;
+    color: #060644;
     text-align: center;
     margin-top: 50px;
 }
