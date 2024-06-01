@@ -159,7 +159,10 @@ header {
 main {
     margin-top: 100px;
 }
-
+/* Center the search bar horizontally */
+.quote-section {
+    text-align: center; /* Center aligns all elements inside */
+}
 .quote-section blockquote {
     font-size: 32;
     text-align: center;
@@ -213,7 +216,6 @@ main {
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; /* Adjust as needed */
 }
 
 .search-container form {
@@ -255,7 +257,7 @@ footer {
 /* Styles for the bottom right image */
 .bottom-right-image {
     width: 387px;
-    height: 450px;
+    height: 380px;
     position: fixed;
     bottom: 10px;
     right: 10px;
@@ -274,4 +276,7 @@ footer {
 }
 .highlighted-word {
     color: #5271ff;
+}
+.italic-text {
+    font-style: italic;
 }
