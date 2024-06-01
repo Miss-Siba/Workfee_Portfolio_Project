@@ -256,8 +256,8 @@ footer {
 }
 /* Styles for the bottom right image */
 .bottom-right-image {
-    width: 387px;
-    height: 380px;
+    width: 200px;
+    height: 200px;
     position: fixed;
     bottom: 10px;
     right: 10px;
