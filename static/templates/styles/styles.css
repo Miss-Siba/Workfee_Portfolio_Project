@@ -1,10 +1,25 @@
 /* Global styles */
 body {
     font-family: Glacial Indifference;
-    background-color: #9fa5c8;
+    background-color: #d9d9d9;
+    height: 100%;
+
     color: #060644;
     margin: 0;
     padding: 0;
+}
+
+/* Use Flexbox to create a sticky footer layout */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main content should take up all available space */
+main {
+    flex: 1;
+}
 
 /* Container for the help desk form */
 .help-desk-form {
@@ -39,7 +54,7 @@ body {
     background-color: #0056b3;
 }
 header {
-    background-color: #9fa5c8;
+    background-color: #d9d9d9;
     color: #060644;
     padding: 10px 0;
 }
@@ -47,8 +62,8 @@ header {
 /* Logo styles */
 .logo-container {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 10px;
+    left: 10px;
     
 }
 /* Style for the logo image */
@@ -195,6 +210,7 @@ main {
 /* Styles for centering the search bar */
 .search-container {
     display: flex;
+    width: 100%;
     justify-content: center;
     align-items: center;
     margin-top: 20px; /* Adjust as needed */
@@ -211,6 +227,7 @@ main {
     padding: 10px;
     margin-right: 10px; /* Space between input and button */
     border: 1px solid #ccc;
+    align-items: center;
     border-radius: 5px;
 }
 
@@ -233,4 +250,28 @@ footer {
     color: #060644;
     text-align: center;
     margin-top: 50px;
+    padding: 20px;
+}
+/* Styles for the bottom right image */
+.bottom-right-image {
+    width: 387px;
+    height: 450px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+/* Font size classes */
+.large-font {
+    font-size: 24px;
+}
+
+.medium-font {
+    font-size: 18px;
+}
+
+.small-font {
+    font-size: 14px;
+}
+.highlighted-word {
+    color: #5271ff;
 }
