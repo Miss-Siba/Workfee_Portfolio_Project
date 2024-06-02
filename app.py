@@ -1,48 +1,83 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
+from MySQLdb.cursors import DictCursor
+import re
+from flask_mysqldb import MySQL
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['MAIL_SERVER'] = 'smtp.yourmailserver.com'  # Configure your mail server
-app.config['MAIL_PORT'] = 587  # Use appropriate port for your mail server
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'your_email@example.com'  # Replace with your email credentials
-app.config['MAIL_PASSWORD'] = 'your_email_password'  # Replace with your email password
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
+#MySQL Configuration
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'your_mysql_user'
-app.config['MYSQL_PASSWORD'] = 'your_mysql_password'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ' '
 app.config['MYSQL_DB'] = 'flask_app_db'
 
 mail = Mail(app)
 mysql = MySQL(app)
 
-# Sample data for job listings
-jobs = [
-    {"title": "Web Developer", "description": "Design and develop web applications."},
-    {"title": "Graphic Designer", "description": "Create visually appealing designs for clients."},
-    {"title": "Content Writer", "description": "Write engaging content for various platforms."},
-]
+#routes
 
-# Mock user data
-users = {
-    "user1": {
-        "username": "user1",
-        "password": generate_password_hash("password1"),  # Store hashed passwords
-        "messages": ["Welcome to your dashboard!"],
-        "portfolio": None,
-        "avatar": None
-    }
-}
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    login_msg = 'Welcome back!'
+    signup_msg = 'Join our community!'
+    
+    if request.method == 'POST':
+        if 'login' in request.form:
+            # Handle login form
+            username = request.form['username']
+            password = request.form['password']
+            if not username or not password:
+                login_msg = 'Please fill out both fields!'
+            else:
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password))
+                user = cursor.fetchone()
+                if user:
+                    session['loggedin'] = True
+                    session['id'] = user['id']
+                    session['username'] = user['username']
+                    return redirect(url_for('profile'))
+                else:
+                    login_msg = 'Invalid username or password!'
+        
+        if 'signup' in request.form:
+            # Handle signup form
+            username = request.form['username']
+            password = request.form['password']
+            if not username or not password:
+                signup_msg = 'Please fill out both fields!'
+            else:
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+                account = cursor.fetchone()
+                if account:
+                    signup_msg = 'Account already exists!'
+                else:
+                    cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
+                    mysql.connection.commit()
+                    signup_msg = 'You have successfully registered!'
+                    return redirect(url_for('account'))
+
+    return render_template('account.html', login_msg=login_msg, signup_msg=signup_msg)
+
+@app.route('/profile')
+def profile():
+    if 'loggedin' in session:
+        return f'Logged in as: {session["username"]}'
+    return redirect(url_for('account'))
 @app.route('/freelancers', methods=['GET', 'POST'])
 def freelancers_page():
-    if resquest.method == 'POST':
+    cursor = mysql.connection.cursor(DictCursor)
+    if request.method == 'POST':
         industry = request.form.get('industry')
         query = "SELECT * FROM freelancers WHERE industry = %s"
         cursor.execute(query, (industry,))
@@ -51,10 +86,12 @@ def freelancers_page():
         query = "SELECT * FROM freelancers"
         cursor.execute(query)
         freelancers = cursor.fetchall()
+        cursor.close()
     return render_template('freelancers.html', freelancers=freelancers)
 
 @app.route('/job_listing', methods=['GET', 'POST'])
 def job_listing():
+    cursor = mysql.connection.cursor(DictCursor)
     if request.method == 'POST':
         title = request.form.get('title')
         description = request.form.get('description')
@@ -66,10 +103,12 @@ def job_listing():
         query = "SELECT * FROM jobs"
         cursor.execute(query)
         jobs = cursor.fetchall()
+        cursor.close()
         return render_template('job_listing.html', jobs=job)
 
 @app.route('/help-desk', methods=['GET', 'POST'])
 def help_desk():
+    cursor = mysql.connection.cursor(DirctCursor)
     if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
@@ -78,41 +117,26 @@ def help_desk():
 
         # Process the form data (e.g., send email)
         send_help_request(name, email, problem, screenshots)
+        cursor.close()
 
         return redirect(url_for('help_request_success'))
     return render_template('help_desk.html')
 
 def send_help_request(name, email, problem, screenshots):
-    msg = Message('Help Request', sender='your_email@example.com', recipients=['sibaquma@gmail.com'])
+    return request.post(
+            "https://api.mailgun.net/v3/sandbox70e3f4405bfb461d9938c3d97dae5318.mailgun.org/messages", 
+            auth=("api", 6720341af862a54f4079b21044419c32-0996409b-27e54710),
+            data={"from": "Excited User <mailgun@sandbox70e3f4405bfb461d9938c3d97dae5318.mailgun.org>",
     msg.body = f"Name: {name}\nEmail: {email}\nProblem Description: {problem}"
     for screenshot in screenshots:
         msg.attach(screenshot.filename, 'image/png', screenshot.read())
     mail.send(msg)
+    }
+
 
 @app.route('/help-request-success')
 def help_request_success():
     return render_template('help_request_success.html')
-
-@app.route('/account', methods=['GET', 'POST'])
-def account():
-    if 'username' in session:
-        username = session['username']
-        query = "SELECT *FROM users WHERE username =%s"
-        cursor.execute(query, (username,))
-        user = cursor.fetchone()
-        return render_template('account.html', user=user)
-    else:
-        if request.method == 'POST':
-            username = request.form.get('username')
-            password = request.form.get('password')
-            query = "SELECT * FROM users WHERE username = %s"
-            cursor.execute(query, (username,))
-            user = cursor.fetchone()
-            
-            if user and check_password_hash(user['password'], password):
-                session['username'] = username
-                return redirect(url_for('account'))
-            return render_template('account.html')
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -165,6 +189,12 @@ def update_password():
         return redirect(url_for('account'))
     else:
         return "Incorrect current password", 403
+@app.route('/users')
+def users():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM user')
+    users = cursor.fetchall()
+    return render_template('users.html',users=users)
 
 @app.route('/change-avatar', methods=['POST'])
 def change_avatar():
