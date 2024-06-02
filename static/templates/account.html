@@ -7,11 +7,11 @@
     <link rel="icon" href="../images/Workfee_logo.png" type="image/x-icon">
 </head>
 <body>
-	<header>
-	    <div class="logo-container">
-	        <img src="../images/Workfee_name.png" alt="Logo" class="Logo">
-	    </div>
-	    <nav class="tabs">
+        <header>
+            <div class="logo-container">
+                <img src="../images/Workfee_name.png" alt="Logo" class="Logo">
+            </div>
+            <nav class="tabs">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="freelancers.html">Freelancers</a></li>
@@ -20,18 +20,18 @@
                 <li><a href="help-desk.html">Help Desk</a></li>
             </ul>
         </nav>
-	</header>
+        </header>
 
-	<div class="image">
-	    <img src="../images/picture_landing_page.png" alt="Web_Image" class="bottom-right-image">
-	</div>
+        <div class="image">
+            <img src="../images/picture_landing_page.png" alt="Web_Image" class="bottom-right-image">
+        </div>
 
 
     {% if session.username %}
         <!-- User Dashboard Section -->
         <h2>Welcome, {{ user.username }}</h2>
 
-	<h3>Your messages</h3>
+        <h3>Your messages</h3>
         <ul>
             {% for message in user.messages %}
                 <li>{{ message }}</li>
@@ -77,13 +77,13 @@
             <button type="submit">Login</button>
         </form>
     {% endif %}
-	<!-- Footer -->
-    	<footer>
-        	<blockquote>
-           	    <p>"Plan and manage your gigs with WORKfee!"</p>
-            	    <footer>- WORKfee 2024</footer>
-        	</blockquote>
-    	</footer>
+        <!-- Footer -->
+        <footer>
+                <blockquote>
+                    <p>"Plan and manage your gigs with WORKfee!"</p>
+                    <footer>- WORKfee 2024</footer>
+                </blockquote>
+        </footer>
 </body>
 </html>
 
