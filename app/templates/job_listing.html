@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listing</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" href="../static/images/Workfee_logo.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="logo-container">
+            <img src="../static/images/Workfee_name.png" alt="Logo">
+        </div>
+        <nav class="tabs">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+		<li><a href="freelancers.html">Freelancers</a></li>
+                <li><a href="job_listing.html">Job Listing</a></li>
+                <li><a href="account.html">Account</a></li>
+		<li><a href="help_desk.html">Help Desk</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Job Listing Section -->
+    <main>
+        <section id="job-listing">
+            <h2>Job Listing</h2>
+	    <ul id="Services needed:">
+                {% for job in jobs %}
+		<li>{{ job.title }} - {{ job.description }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+	<!-- Add Job Form Section -->
+        <section id="add-job">
+            <h2>Add Job</h2>
+            <form action="{{ url_for('add_job') }}" method="POST">
+                <label for="title">Job Title:</label>
+                <input type="text" id="title" name="title" required>
+                <label for="industry">Industry:</label>
+                <input type="text" id="industry" name="industry" required>
+                <label for="description">Job Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+                <button type="submit">Add Job</button>
+            </form>
+        </section>
+    </main>
+    <!-- Add the image at the bottom of the body -->
+    <img src="../static/images/picture_landing_page.png" alt="Web_Image" class="bottom-right-image">
+
+    <!-- Footer -->
+    <footer>
+        <blockquote>
+            <p>"Elevate Your Career: Your Next Gig Starts Here!"</p>
+            <footer>- WORKfee 2024</footer>
+        </blockquote>
+    </footer>
+</body>
+</html>

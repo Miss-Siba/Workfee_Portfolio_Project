@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" href="../static/images/Workfee_logo.png" type="image/x-icon">
+</head>
+<body>
+        <header>
+            <div class="logo-container">
+                <img src="../static/images/Workfee_name.png" alt="Logo" class="Logo">
+            </div>
+            <nav class="tabs">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="freelancers.html">Freelancers</a></li>
+                <li><a href="job-listing.html">Job Listing</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="help-desk.html">Help Desk</a></li>
+            </ul>
+        </nav>
+        </header>
+
+        <div class="image">
+            <img src="../static/images/picture_landing_page.png" alt="Web_Image" class="bottom-right-image">
+        </div>
+
+
+    {% if session.username %}
+        <!-- User Dashboard Section -->
+        <h2>Welcome, {{ user.username }}</h2>
+
+        <h3>Your messages</h3>
+        <ul>
+            {% for message in user.messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Manage Your Portfolio</h3>
+        <form action="{{ url_for('upload_portfolio') }}" method="POST" enctype="multipart/form-data">
+            <label for="portfolio">Upload Portfolio:</label>
+            <input type="file" id="portfolio" name="portfolio" required>
+            <br>
+            <button type="submit">Upload</button>
+        </form>
+
+        <h3>Update Password</h3>
+        <form action="{{ url_for('update_password') }}" method="POST">
+            <label for="current_password">Current Password:</label>
+            <input type="password" id="current_password" name="current_password" required>
+            <br>
+            <label for="new_password">New Password:</label>
+            <input type="password" id="new_password" name="new_password" required>
+            <br>
+            <button type="submit">Update Password</button>
+        </form>
+
+        <h3>Change Profile Picture</h3>
+        <form action="{{ url_for('change_avatar') }}" method="POST" enctype="multipart/form-data">
+            <label for="avatar">Upload New Profile Picture:</label>
+            <input type="file" id="avatar" name="avatar" required>
+            <br>
+            <button type="submit">Change Profile Picture</button>
+        </form>
+    {% else %}
+        <!-- Login Form Section -->
+        <h2>Login to Your Account</h2>
+        <form action="{{ url_for('login') }}" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+        <!-- Footer -->
+        <footer>
+                <blockquote>
+                    <p>"Plan and manage your gigs with WORKfee!"</p>
+                    <footer>- WORKfee 2024</footer>
+                </blockquote>
+        </footer>
+</body>
+</html>
+
