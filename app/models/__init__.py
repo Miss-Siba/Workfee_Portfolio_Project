@@ -7,11 +7,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
-from .models.user import User
-from .models.portfolio import Portfolio
-from .models.job import Job
-from .models.message import Message
-from .models.rating import Rating
+from models.user import User
+from models.portfolio import Portfolio
+from models.job import Job
+from models.message import Message
+from models.rating import Rating
 
 
 # Create SQLAlchemy object

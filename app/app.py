@@ -11,9 +11,9 @@ from flask_mysqldb import MySQL
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
-from models.user import User
-from models.portfolio import Portfolio
-from models.job import Job
+from models import User
+from models import Portfolio
+from models import Job
 from models import init_app
 
 app = Flask(__name__)
