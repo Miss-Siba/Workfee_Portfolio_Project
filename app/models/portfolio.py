@@ -2,13 +2,21 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-import models
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from . import models
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+def get_db():
+    from app import db
+    return db
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +38,8 @@ class Portfolio(db.Model):
     image_url = db.Column(db.String(200))
     rating = db.Column(db.Float, default=0.0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = relationship('User', back_populates='portfolios')
 
 if __name__ == '__main__':
     with app.app_context():

@@ -1,13 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-import models
+from . import models
 from datetime import datetime
+from flask import Flask
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+def get_db():
+    from app import db
+    return db
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

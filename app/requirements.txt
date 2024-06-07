@@ -3,4 +3,5 @@ Flask-SQLAlchemy==3.0.0
 Flask-Login==0.5.0
 Flask-Mail==0.9.1
 Flask-Testing==0.8.0
-MySQL-python==1.2.5
+mysqlclient==2.1.0
+

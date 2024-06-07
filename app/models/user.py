@@ -1,8 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+from datetime import datetime
+from . import models
 
 db = SQLAlchemy()
+
+def get_db():
+    from app import db
+    return db
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +21,8 @@ class User(db.Model, UserMixin):
     is_freelancer = db.Column(db.Boolean, default=False)
     is_client = db.Column(db.Boolean, default=False)
     rating = db.Column(db.Float, default=0.0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     portfolios = db.relationship('Portfolio', backref='user', lazy=True)
     jobs = db.relationship('Job', backref='client', lazy=True)

@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-""" Manages the app"""
-
+#!/usr/bin/python3
 
 from app import create_app
 
