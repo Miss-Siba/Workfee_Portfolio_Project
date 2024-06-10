@@ -1,6 +1,6 @@
 [build]
-  command = "export MYSQLCLIENT_CFLAGS='-I/usr/include/mysql' MYSQLCLIENT_LDFLAGS='-L/usr/lib/mysql -lmysqlclient' && pip install -r requirements.txt"
-  publish = "build"  # Replace with your project's build output directory
+  command = "sudo apt-get update && sudo apt-get install -y build-essential python3-dev libmysqlclient-dev && pip install -r requirements.txt"
+  publish = "build"
 
 [context.production.environment]
   PYTHON_VERSION = "3.8"
@@ -11,4 +11,3 @@
   PYTHON_VERSION = "3.8"
   MYSQLCLIENT_CFLAGS = "-I/usr/include/mysql"
   MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mysql -lmysqlclient"
-
