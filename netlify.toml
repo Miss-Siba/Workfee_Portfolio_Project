@@ -1,13 +1,14 @@
 [build]
-  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev libmariadb-dev-compat && pip install -r requirements.txt"
-  publish = "build"
-
-[build.environment]
-  MYSQLCLIENT_CONNECTOR = "/usr/include/mariadb"
+  command = "export MYSQLCLIENT_CFLAGS='-I/usr/include/mysql' MYSQLCLIENT_LDFLAGS='-L/usr/lib/mysql -lmysqlclient' && pip install -r requirements.txt"
+  publish = "build"  # Replace with your project's build output directory
 
 [context.production.environment]
   PYTHON_VERSION = "3.8"
+  MYSQLCLIENT_CFLAGS = "-I/usr/include/mysql"
+  MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mysql -lmysqlclient"
 
 [context.deploy-preview.environment]
-  MYSQLCLIENT_CONNECTOR = "/usr/include/mariadb"
   PYTHON_VERSION = "3.8"
+  MYSQLCLIENT_CFLAGS = "-I/usr/include/mysql"
+  MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mysql -lmysqlclient"
+
