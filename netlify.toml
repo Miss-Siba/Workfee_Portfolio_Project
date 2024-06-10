@@ -1,10 +1,13 @@
 [build]
-  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev && pip install -r requirements.txt"
+  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev libmariadb-dev-compat && pip install -r requirements.txt"
   publish = "build"
+
+[build.environment]
+  MYSQLCLIENT_CONNECTOR = "/usr/include/mariadb"
 
 [context.production.environment]
   PYTHON_VERSION = "3.8"
 
-[context.deploy-preview]
-  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev && pip install -r requirements.txt"
-
+[context.deploy-preview.environment]
+  MYSQLCLIENT_CONNECTOR = "/usr/include/mariadb"
+  PYTHON_VERSION = "3.8"
