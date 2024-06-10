@@ -1,0 +1,10 @@
+[build]
+  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev && pip install -r requirements.txt"
+  publish = "build"
+
+[context.production.environment]
+  PYTHON_VERSION = "3.8"
+
+[context.deploy-preview]
+  command = "sudo apt-get update && sudo apt-get install -y libmysqlclient-dev && pip install -r requirements.txt"
+
