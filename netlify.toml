@@ -3,11 +3,11 @@
   publish = "build"
 
 [context.production.environment]
-  PYTHON_VERSION = "3.8"
+  PYTHON_VERSION = "3.8.10"
   MYSQLCLIENT_CFLAGS = "-I/usr/include/mysql"
   MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mysql -lmysqlclient"
 
 [context.deploy-preview.environment]
-  PYTHON_VERSION = "3.8"
+  PYTHON_VERSION = "3.8.10"
   MYSQLCLIENT_CFLAGS = "-I/usr/include/mysql"
   MYSQLCLIENT_LDFLAGS = "-L/usr/lib/mysql -lmysqlclient"
